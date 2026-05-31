@@ -43,6 +43,7 @@ let response: GamesResponse = try await client.perform(GamesRequest())
 Optional request values such as `version`, `headers`, `body`, and `queryParams` can be omitted thanks to the protocol defaults.
 
 ## Testing
+To run this project tests, run the command below in the root folder
 
 ```bash
 swift test
