@@ -9,6 +9,7 @@ struct TestRequest: Request {
     let method: HTTPMethod
     let headers: [String: String]?
     let body: [String: Any?]?
+    let rawBody: Data?
     let queryParams: [String: String]?
 
     init(
@@ -19,6 +20,7 @@ struct TestRequest: Request {
         method: HTTPMethod = .get,
         headers: [String: String]? = nil,
         body: [String: Any?]? = nil,
+        rawBody: Data? = nil,
         queryParams: [String: String]? = nil
     ) {
         self.host = host
@@ -28,6 +30,7 @@ struct TestRequest: Request {
         self.method = method
         self.headers = headers
         self.body = body
+        self.rawBody = rawBody
         self.queryParams = queryParams
     }
 }

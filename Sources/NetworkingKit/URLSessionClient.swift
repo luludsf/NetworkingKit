@@ -113,7 +113,9 @@ public final class URLSessionClient: Networking {
             urlRequest.setValue(value, forHTTPHeaderField: key)
         }
 
-        if let body = request.body {
+        if let rawBody = request.rawBody, !rawBody.isEmpty {
+            urlRequest.httpBody = rawBody
+        } else if let body = request.body {
             let sanitizedBody = body.compactMapValues { $0 }
 
             if !sanitizedBody.isEmpty {

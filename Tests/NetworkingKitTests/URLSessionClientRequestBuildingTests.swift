@@ -81,6 +81,24 @@ struct URLSessionClientRequestBuildingTests {
     }
 
     @Test
+    func performBuildsRequestWithRawBody() async throws {
+        let session = makeURLSessionSpy(statusCode: 200, responseData: Data("{}".utf8))
+        let client = URLSessionClient(session: session)
+        let rawBody = Data("fields name,cover.image_id;".utf8)
+        let request = TestRequest(
+            method: .post,
+            headers: ["Content-Type": "text/plain"],
+            rawBody: rawBody
+        )
+
+        let _: EmptyResponse = try await client.perform(request)
+        let capturedRequest = try #require(session.request)
+
+        #expect(capturedRequest.httpBody == rawBody)
+        #expect(capturedRequest.value(forHTTPHeaderField: "Content-Type") == "text/plain")
+    }
+
+    @Test
     func performFailsWhenURLCannotBeBuilt() async {
         let client = makeClient(statusCode: 200, responseData: Data("{}".utf8))
         let request = TestRequest(host: "api.example.com", scheme: "", path: "games")
